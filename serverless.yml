@@ -1,0 +1,44 @@
+service: halogen-backoffice-script
+frameworkVersion: "3"
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
+  - serverless-s3-sync
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  profile: scriptUser
+  region: ap-southeast-1
+  environment:
+    bucketName: ${self:custom.bucketName}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - s3:*
+      Resource: "*"  
+
+package:
+  individually: true        
+
+custom:
+  customVariable1: Hello, World!
+  bucketName: halogen-backoffice-script-serverlessdeploymentbuck-mrtbzyllmy0q
+  s3Sync:
+      - bucketName: ${self:custom.bucketName}
+        localDir: UploadData  
+
+functions:
+  Function1:
+    handler: ./src/handler.handler # works to point to TypeScript, because Esbuild will compile it for us
+    events:
+      - httpApi:
+          path: /api/handler
+          method: GET
+  createFile:
+    handler: ./src/lambdas/endpoints/createFile.handler
+    events:
+      - httpApi:
+          path: /{hash}/{fileName}
+          method: POST
