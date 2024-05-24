@@ -4,7 +4,6 @@ frameworkVersion: "3"
 plugins:
   - serverless-esbuild
   - serverless-offline
-  - serverless-s3-sync
 
 provider:
   name: aws
@@ -24,21 +23,22 @@ package:
 
 custom:
   customVariable1: Hello, World!
-  bucketName: halogen-backoffice-script-serverlessdeploymentbuck-mrtbzyllmy0q
-  s3Sync:
-      - bucketName: ${self:custom.bucketName}
-        localDir: UploadData  
+  bucketName: halogen-backoffice-script-serverlessdeploymentbuck-zvsxux6rd0xg
 
 functions:
-  Function1:
-    handler: ./src/handler.handler # works to point to TypeScript, because Esbuild will compile it for us
-    events:
-      - httpApi:
-          path: /api/handler
-          method: GET
   createFile:
-    handler: ./src/lambdas/endpoints/createFile.handler
+    handler: ./src/ts_lambdas/endpoints/createFile.handler
     events:
       - httpApi:
           path: /{hash}/{fileName}
           method: POST
+
+  extractFile:
+    runtime: provided.al2023
+    handler: ./src/go_lambdas/bin/bootstrap
+    events:
+      - http:
+          path: /extractFile
+          method: GET
+    package:
+      artifact: ./src/go_lambdas/bin/bootstrap.zip
