@@ -33,12 +33,12 @@ functions:
           path: /{hash}/{fileName}
           method: POST
 
-  extractFile:
+  extractFiles:
     runtime: provided.al2023
-    handler: ./src/go_lambdas/bin/bootstrap
+    handler: ./src/go_lambdas/bin/extractFiles
     events:
       - http:
-          path: /extractFile
+          path: /extractFiles
           method: GET
     package:
-      artifact: ./src/go_lambdas/bin/bootstrap.zip
+      artifact: ./src/go_lambdas/bin/extractFiles.zip
