@@ -7,11 +7,11 @@
         "test": "glob -c \"node --loader tsx --test\" \"./src/**/*.test.ts\""
     },
     "dependencies": {
+        "@aws-sdk/client-dynamodb": "^3.588.0",
         "@aws-sdk/client-s3": "^3.577.0",
         "aws-sdk": "^2.1622.0",
         "aws-sdk-js-codemod": "^1.4.0",
         "serverless-add-api-key": "^4.2.1",
-        "serverless-go-build": "^0.0.6",
         "serverless-s3-sync": "^3.3.0",
         "serverless-webpack": "^5.13.0"
     },

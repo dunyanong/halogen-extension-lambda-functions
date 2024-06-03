@@ -12,18 +12,21 @@ provider:
   region: ap-southeast-1
   environment:
     bucketName: ${self:custom.bucketName}
+    tableName: ${self:custom.tableName}
   iamRoleStatements:
     - Effect: "Allow"
       Action:
         - s3:*
+        - dynamodb:*
       Resource: "*"  
 
 package:
-  individually: true        
+  individually: true
 
 custom:
   customVariable1: Hello, World!
-  bucketName: halogen-backoffice-script-serverlessdeploymentbuck-zvsxux6rd0xg
+  bucketName: halogen-backoffice-script-serverlessdeploymentbuck-ylzwrvx10v52
+  tableName: file-script
 
 functions:
   createFile:
@@ -32,13 +35,3 @@ functions:
       - httpApi:
           path: /{hash}/{fileName}
           method: POST
-
-  extractFiles:
-    runtime: provided.al2023
-    handler: ./src/go_lambdas/bin/extractFiles
-    events:
-      - http:
-          path: /extractFiles
-          method: GET
-    package:
-      artifact: ./src/go_lambdas/bin/extractFiles.zip
