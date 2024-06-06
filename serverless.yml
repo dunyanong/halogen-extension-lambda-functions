@@ -16,7 +16,16 @@ provider:
   iamRoleStatements:
     - Effect: "Allow"
       Action:
-        - s3:*
+        - s3:ListBucket
+      Resource: arn:aws:s3:::backoffice-script
+    - Effect: "Allow"
+      Action:
+        - s3:GetObject
+        - s3:PutObject
+        - s3:DeleteObject
+      Resource: arn:aws:s3:::backoffice-script/*
+    - Effect: "Allow"
+      Action:
         - dynamodb:*
       Resource: "*"  
 
@@ -25,7 +34,7 @@ package:
 
 custom:
   customVariable1: Hello, World!
-  bucketName: halogen-backoffice-script-serverlessdeploymentbuck-ylzwrvx10v52
+  bucketName: backoffice-script
   tableName: file-script
 
 functions:
