@@ -4,11 +4,14 @@ const dynamoDBClient = new DynamoDBClient({ region: 'ap-southeast-1' });
 
 const DynamoDB = {
     async write(hash, fileName, tableName) {
+        const timestamp = new Date().toISOString(); // Get current timestamp in ISO format
+        
         const params = {
             TableName: tableName,
             Item: {
                 hash: { S: hash },
-                filename: { S: fileName }
+                filename: { S: fileName },
+                timestamp: { S: timestamp } // Add timestamp attribute
             }
         };
 
